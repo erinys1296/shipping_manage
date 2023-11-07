@@ -9,6 +9,7 @@ from firebase import firebase
 
 import requests, json
 
+
 url = 'https://line-notify-a56be-default-rtdb.firebaseio.com/'
 fdb = firebase.FirebaseApplication(url, None)    # 初始化，第二個參數作用在負責使用者登入資訊，通常設定為 None
 headers = {'Authorization':'Bearer '+os.environ['CHANNEL_ACCESS_TOKEN'],'Content-Type':'application/json'}
