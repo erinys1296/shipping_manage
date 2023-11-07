@@ -12,7 +12,8 @@ import requests, json
 
 app = Flask(__name__)
 
-
+url = os.environ['firebaseurl']
+fdb = firebase.FirebaseApplication(url, None)    # 初始化，第二個參數作用在負責使用者登入資訊，通常設定為 None
 line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
 
@@ -34,6 +35,7 @@ def handle_message(event):
     username = line_bot_api.get_profile(UserName)
     if event.source.type == 'group':
         dataid = event.source.group_id
+        fdb.put('/'+dataid,'test',1)
         
     
     else:
