@@ -41,16 +41,18 @@ def handle_message(event):
         if event.message.text[:2] == '訂貨':
             order_message = event.message.text
             orders = order_message.split('\n')
-            chn = ['A','B','C']
-            for i in range(len(orders)):
+            chn = ['','A','B','C']
+            for i in range(1,len(orders)):
                 print(orders[i])
                 
-                fdb.put('/'+dataid+'/'+chn[i],'店家',orders[i].split(',')[0])
-                fdb.put('/'+dataid+'/'+chn[i],'貨物',orders[i].split(',')[1])
-                fdb.put('/'+dataid+'/'+chn[i],'數量',orders[i].split(',')[2])
+                fdb.put('/'+dataid+'/order/'+chn[i],'店家',orders[i].split(',')[0])
+                fdb.put('/'+dataid+'/order/'+chn[i],'貨物',orders[i].split(',')[1])
+                fdb.put('/'+dataid+'/order/'+chn[i],'數量',orders[i].split(',')[2])
                 
         if event.message.text[:2] == '查詢':
-            print('test')
+            message = TextSendMessage(text= fdb.get('/'+dataid+'/order/A','店家'))
+            line_bot_api.reply_message(event.reply_token, message)
+            print(fdb.get('/'+dataid+'/order/A','店家'))
 
         
     
