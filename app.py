@@ -39,6 +39,7 @@ def handle_message(event):
         
     
     else:
+        print("test")
         
         UserName = event.source.user_id
         username = line_bot_api.get_profile(UserName)
