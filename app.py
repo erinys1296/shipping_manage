@@ -34,14 +34,16 @@ def handle_message(event):
     username = line_bot_api.get_profile(UserName)
     if event.source.type == 'group':
         dataid = event.source.group_id
+        
+    
     else:
         
-        dataid = username.user_id
+        UserName = event.source.user_id
+        username = line_bot_api.get_profile(UserName)
+        message = TextSendMessage(text= 'Hello '+username.display_name +' 小幫手目前的功能都是群組限定，若需小幫手幫助您整理貨單，請將小幫手與您的共事夥伴加入同一個群組呦！')
+        line_bot_api.reply_message(event.reply_token, message)
                 
-    UserName = event.source.user_id
-    username = line_bot_api.get_profile(UserName)
-    message = TextSendMessage(text= 'hello '+username.display_name )
-    line_bot_api.reply_message(event.reply_token, message)
+
 
         
 
