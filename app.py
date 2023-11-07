@@ -42,17 +42,23 @@ def handle_message(event):
             order_message = event.message.text
             orders = order_message.split('\n')
             chn = ['','A','B','C']
+            message = '已新增\n'
             for i in range(1,len(orders)):
                 print(orders[i])
                 
                 fdb.put('/'+dataid+'/order/'+chn[i],'店家',orders[i].split(',')[0])
                 fdb.put('/'+dataid+'/order/'+chn[i],'貨物',orders[i].split(',')[1])
                 fdb.put('/'+dataid+'/order/'+chn[i],'數量',orders[i].split(',')[2])
-                
+
+                message = message + '店家: '+orders[i].split(',')[0]+ ', 貨物: ' +orders[i].split(',')[1] + ', 數量: ' + orders[i].split(',')[2] + '\n'
+                line_bot_api.reply_message(event.reply_token, message)
         if event.message.text[:2] == '查詢':
-            message = TextSendMessage(text= fdb.get('/'+dataid+'/order/A','店家'))
+            message = ''
+            for order in fdb.get('/Cbfe6adcef9ea0a171e91fcd7b5e6f184/order','').values():
+                for ki,vi in zip(order.keys(),order.values()):
+                    message = message + ki + ' ' + vi+', '
+                message = message[:-2] + '\n'
             line_bot_api.reply_message(event.reply_token, message)
-            print(fdb.get('/'+dataid+'/order/A','店家'))
 
         
     
