@@ -43,10 +43,14 @@ def handle_message(event):
             orders = order_message.split('\n')
             chn = ['A','B','C']
             for i in range(len(orders)):
+                print(orders[i])
                 
                 fdb.put('/'+dataid+'/'+chn[i],'店家',orders[i].split(',')[0])
                 fdb.put('/'+dataid+'/'+chn[i],'貨物',orders[i].split(',')[1])
                 fdb.put('/'+dataid+'/'+chn[i],'數量',orders[i].split(',')[2])
+                
+        if event.message.text[:2] == '查詢':
+            print('test')
 
         
     
