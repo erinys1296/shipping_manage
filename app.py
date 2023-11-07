@@ -36,10 +36,18 @@ def handle_message(event):
     if event.source.type == 'group':
         dataid = event.source.group_id
         fdb.put('/'+dataid,'test',1)
+        
+        
         if event.message.text[:2] == '訂貨':
-            fdb.put('/'+dataid+'/A','店家','測試')
-            fdb.put('/'+dataid+'/A','貨物','風熱友')
-            fdb.put('/'+dataid+'/A','數量','50')
+            order_message = event.message.text
+            orders = order_message.split('\n')
+            chn = ['A','B','C']
+            for i in range(len(orders)):
+                
+                fdb.put('/'+dataid+'/'+chn[i],'店家',orders[i].split(',')[0])
+                fdb.put('/'+dataid+'/'+chn[i],'貨物',orders[i].split(',')[1])
+                fdb.put('/'+dataid+'/'+chn[i],'數量',orders[i].split(',')[2])
+
         
     
     else:
