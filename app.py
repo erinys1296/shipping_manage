@@ -42,7 +42,7 @@ def handle_message(event):
             order_message = event.message.text
             orders = order_message.split('\n')
             chn = ['','A','B','C','D','E','F','G']
-            #nn = len(fdb.get('/'+dataid+'order','').values())
+            nn = len(fdb.get('/'+dataid+'order','').values())
             try:
                 nn = len(fdb.get('/'+dataid+'order','').values())
             except:
