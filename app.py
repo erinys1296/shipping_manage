@@ -9,7 +9,6 @@ from firebase import firebase
 
 import requests, json
 
-
 app = Flask(__name__)
 
 url = os.environ['firebaseurl']
