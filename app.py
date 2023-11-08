@@ -76,6 +76,7 @@ def handle_message(event):
                     
                 }]
             }
+            print(body)
             req = requests.request('POST', 'https://api.line.me/v2/bot/message/push',headers=headers,data=json.dumps(body).encode('utf-8'))
             
 
