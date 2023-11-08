@@ -66,16 +66,80 @@ def handle_message(event):
                 messagetext = messagetext[:-2] + '\n'
             message = TextSendMessage(text= messagetext)
             line_bot_api.reply_message(event.reply_token, message)
-        if event.message.text[:2] == '登記送貨':
+        if event.message.text == '登記送貨':
             body = {
             'to':dataid,
             'messages':[{
-                    'type': 'text',
-                    'text': 'hello '+username.display_name
-                    
-                }]
+              "type": "template",
+              "altText": "this is a carousel template",
+              "template": {
+                "type": "carousel",
+                "columns": [
+                  {
+                    "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
+                    "imageBackgroundColor": "#FFFFFF",
+                    "title": "this is menu",
+                    "text": "description",
+                    "defaultAction": {
+                      "type": "uri",
+                      "label": "View detail",
+                      "uri": "http://example.com/page/123"
+                    },
+                    "actions": [
+                      {
+                        "type": "postback",
+                        "label": "Buy",
+                        "data": "action=buy&itemid=111"
+                      },
+                      {
+                        "type": "postback",
+                        "label": "Add to cart",
+                        "data": "action=add&itemid=111"
+                      },
+                      {
+                        "type": "uri",
+                        "label": "View detail",
+                        "uri": "http://example.com/page/111"
+                      }
+                    ]
+                  },
+                  {
+                    "thumbnailImageUrl": "https://example.com/bot/images/item2.jpg",
+                    "imageBackgroundColor": "#000000",
+                    "title": "this is menu",
+                    "text": "description",
+                    "defaultAction": {
+                      "type": "uri",
+                      "label": "View detail",
+                      "uri": "http://example.com/page/222"
+                    },
+                    "actions": [
+                      {
+                        "type": "postback",
+                        "label": "Buy",
+                        "data": "action=buy&itemid=222"
+                      },
+                      {
+                        "type": "postback",
+                        "label": "Add to cart",
+                        "data": "action=add&itemid=222"
+                      },
+                      {
+                        "type": "uri",
+                        "label": "View detail",
+                        "uri": "http://example.com/page/222"
+                      }
+                    ]
+                  }
+                ],
+                "imageAspectRatio": "rectangle",
+                "imageSize": "cover"
+              }
+            }]
             }
-            print(body)
+
+            
+
             req = requests.request('POST', 'https://api.line.me/v2/bot/message/push',headers=headers,data=json.dumps(body).encode('utf-8'))
             
 
