@@ -16,6 +16,7 @@ url = os.environ['firebaseurl']
 fdb = firebase.FirebaseApplication(url, None)    # 初始化，第二個參數作用在負責使用者登入資訊，通常設定為 None
 line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
+headers = {'Authorization':'Bearer '+os.environ['CHANNEL_ACCESS_TOKEN'],'Content-Type':'application/json'}
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -42,9 +43,9 @@ def handle_message(event):
             order_message = event.message.text
             orders = order_message.split('\n')
             chn = ['','A','B','C','D','E','F','G']
-            nn = len(fdb.get('/'+dataid+'order','').values())
+            nn = len(fdb.get('/'+dataid+'/order','').values())
             try:
-                nn = len(fdb.get('/'+dataid+'order','').values())
+                nn = len(fdb.get('/'+dataid+'/order','').values())
             except:
                 nn = 0
             messagetext = '已新增\n'
@@ -66,6 +67,17 @@ def handle_message(event):
                 messagetext = messagetext[:-2] + '\n'
             message = TextSendMessage(text= messagetext)
             line_bot_api.reply_message(event.reply_token, message)
+        if event.message.text[:2] == '登記送貨':
+            body = {
+            'to':dataid,
+            'messages':[{
+                    'type': 'text',
+                    'text': 'hello '+username.display_name
+                    
+                }]
+            }
+            req = requests.request('POST', 'https://api.line.me/v2/bot/message/push',headers=headers,data=json.dumps(body).encode('utf-8'))
+            
 
         
     
